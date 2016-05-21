@@ -100,7 +100,7 @@ public class VideoDetailsFragment extends DetailsFragment {
     private void prepareBackgroundManager() {
         mBackgroundManager = BackgroundManager.getInstance(getActivity());
         mBackgroundManager.attach(getActivity().getWindow());
-        mDefaultBackground = getResources().getDrawable(R.drawable.default_background);
+        mDefaultBackground = getResources().getDrawable(R.drawable.wwdc_desktop);
         mMetrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
     }
@@ -128,7 +128,7 @@ public class VideoDetailsFragment extends DetailsFragment {
     private void setupDetailsOverviewRow() {
         Log.d(TAG, "doInBackground: " + mSelectedMovie.toString());
         final DetailsOverviewRow row = new DetailsOverviewRow(mSelectedMovie);
-        row.setImageDrawable(getResources().getDrawable(R.drawable.default_background));
+        row.setImageDrawable(getResources().getDrawable(R.drawable.wwdc_desktop));
         int width = Utils.convertDpToPixel(getActivity()
                 .getApplicationContext(), DETAIL_THUMB_WIDTH);
         int height = Utils.convertDpToPixel(getActivity()
@@ -136,7 +136,7 @@ public class VideoDetailsFragment extends DetailsFragment {
         Glide.with(getActivity())
                 .load(mSelectedMovie.getCardImageUrl())
                 .centerCrop()
-                .error(R.drawable.default_background)
+                .error(R.drawable.wwdc_desktop)
                 .into(new SimpleTarget<GlideDrawable>(width, height) {
                     @Override
                     public void onResourceReady(GlideDrawable resource,
