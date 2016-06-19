@@ -90,8 +90,8 @@ public class PlaybackOverlayActivity extends Activity implements
      * Implementation of OnPlayPauseClickedListener
      */
     public void onFragmentPlayPause(Movie movie, int position, Boolean playPause) {
-        Log.i(TAG, "VIDEO URL: " + movie.getVideo_url());
-        mVideoView.setVideoPath(movie.getVideo_url());
+        Log.i(TAG, "VIDEO URL: " + movie.getDownload_hd());
+        mVideoView.setVideoPath(movie.getDownload_hd());
 
         if (position == 0 || mPlaybackState == LeanbackPlaybackState.IDLE) {
             setupCallbacks();
@@ -148,7 +148,7 @@ public class PlaybackOverlayActivity extends Activity implements
 
         // And at minimum the title and artist for legacy support
         metadataBuilder.putString(MediaMetadata.METADATA_KEY_TITLE, title);
-        metadataBuilder.putString(MediaMetadata.METADATA_KEY_ARTIST, movie.getStudio());
+        metadataBuilder.putString(MediaMetadata.METADATA_KEY_ARTIST, movie.getLocation());
 
         Glide.with(this)
                 .load(Uri.parse(movie.getCardImageUrl()))

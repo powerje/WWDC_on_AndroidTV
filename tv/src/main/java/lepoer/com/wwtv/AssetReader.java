@@ -1,6 +1,7 @@
 package lepoer.com.wwtv;
 
 import android.content.res.AssetManager;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -25,6 +26,7 @@ public class AssetReader {
 
             return buf.toString();
         } catch (Exception e) {
+            Log.e("WTF", "Unable to load string asset", e);
             return null;
         }
     }

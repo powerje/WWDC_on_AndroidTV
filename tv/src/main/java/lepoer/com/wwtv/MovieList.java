@@ -76,11 +76,11 @@ public final class MovieList {
         Movie.incCount();
         movie.setTitle(title);
         movie.setDescription(description);
-        movie.setStudio(studio);
-        movie.setPlatform(category);
+        movie.setLocation(studio);
+        movie.setTrack(category);
         movie.setCardImageUrl(cardImageUrl);
         movie.setBackgroundImageUrl(bgImageUrl);
-        movie.setVideo_url(videoUrl);
+        movie.setDownload_hd(videoUrl);
         return movie;
     }
 }

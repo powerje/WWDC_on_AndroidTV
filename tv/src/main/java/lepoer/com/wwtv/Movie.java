@@ -28,9 +28,9 @@ public class Movie implements Serializable {
     private long id;
     private String title;
     private String description;
-    private String video_url;
-    private String studio;
-    private String platform;
+    private String download_hd;
+    private String location;
+    private String track;
 
     public Movie() {
     }
@@ -67,20 +67,20 @@ public class Movie implements Serializable {
         this.description = description;
     }
 
-    public String getStudio() {
-        return studio;
+    public String getLocation() {
+        return location;
     }
 
-    public void setStudio(String studio) {
-        this.studio = studio;
+    public void setLocation(String location) {
+        this.location = location;
     }
 
-    public String getVideo_url() {
-        return video_url;
+    public String getDownload_hd() {
+        return download_hd;
     }
 
-    public void setVideo_url(String video_url) {
-        this.video_url = video_url;
+    public void setDownload_hd(String download_hd) {
+        this.download_hd = download_hd;
     }
 
     public String getBackgroundImageUrl() {
@@ -98,12 +98,12 @@ public class Movie implements Serializable {
     public void setCardImageUrl(String cardImageUrl) {
     }
 
-    public String getPlatform() {
-        return platform;
+    public String getTrack() {
+        return track;
     }
 
-    public void setPlatform(String platform) {
-        this.platform = platform;
+    public void setTrack(String track) {
+        this.track = track;
     }
 
     public URI getBackgroundImageURI() {
@@ -127,7 +127,7 @@ public class Movie implements Serializable {
         return "Movie{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
-                ", video_url='" + video_url + '\'' +
+                ", download_hd='" + download_hd + '\'' +
 //                ", backgroundImageUrl='" + bgImageUrl + '\'' +
                 ", backgroundImageURI='" + getBackgroundImageURI().toString() + '\'' +
 //                ", cardImageUrl='" + cardImageUrl + '\'' +

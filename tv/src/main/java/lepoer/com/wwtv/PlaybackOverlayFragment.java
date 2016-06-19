@@ -208,9 +208,9 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
         Movie movie = mSelectedMovie;
         MediaMetadataRetriever mmr = new MediaMetadataRetriever();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-            mmr.setDataSource(movie.getVideo_url(), new HashMap<String, String>());
+            mmr.setDataSource(movie.getDownload_hd(), new HashMap<String, String>());
         } else {
-            mmr.setDataSource(movie.getVideo_url());
+            mmr.setDataSource(movie.getDownload_hd());
         }
         String time = mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
         long duration = Long.parseLong(time);
@@ -286,7 +286,7 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
         if (mPlaybackControlsRow.getItem() != null) {
             Movie item = (Movie) mPlaybackControlsRow.getItem();
             item.setTitle(mSelectedMovie.getTitle());
-            item.setStudio(mSelectedMovie.getStudio());
+            item.setLocation(mSelectedMovie.getLocation());
         }
         if (SHOW_IMAGE) {
             updateVideoImage(mSelectedMovie.getCardImageURI().toString());
@@ -392,7 +392,7 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
         @Override
         protected void onBindDescription(ViewHolder viewHolder, Object item) {
             viewHolder.getTitle().setText(((Movie) item).getTitle());
-            viewHolder.getSubtitle().setText(((Movie) item).getStudio());
+            viewHolder.getSubtitle().setText(((Movie) item).getLocation());
         }
     }
 }
