@@ -138,6 +138,8 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
         // HAX: god why is this necessary? Without this we have no focus and can't do anything
         // with the remote control.
         getActivity().getWindow().getDecorView().requestFocus();
+        mPlayPauseAction.setIndex(PlayPauseAction.PLAY);
+        togglePlayback(true);
     }
 
     @Override
@@ -296,7 +298,7 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
     }
 
     private int getUpdatePeriod() {
-        if (getView() == null || mPlaybackControlsRow.getTotalTime() <= 0) {
+        if (getView() == null || mPlaybackControlsRow.getTotalTime() <= 0 || getView().getWidth() == 0) {
             return DEFAULT_UPDATE_PERIOD;
         }
         return Math.max(UPDATE_PERIOD, mPlaybackControlsRow.getTotalTime() / getView().getWidth());
