@@ -45,11 +45,6 @@ import rx.functions.Action1;
 public class MainFragment extends BrowseFragment {
     private static final String TAG = "MainFragment";
 
-    private static final int BACKGROUND_UPDATE_DELAY = 300;
-    private static final int GRID_ITEM_WIDTH = 200;
-    private static final int GRID_ITEM_HEIGHT = 200;
-
-    private final Handler mHandler = new Handler();
     private ArrayObjectAdapter mRowsAdapter;
     private DisplayMetrics mMetrics;
     private BackgroundManager mBackgroundManager;
@@ -96,25 +91,19 @@ public class MainFragment extends BrowseFragment {
     }
 
     private void prepareBackgroundManager() {
-
         mBackgroundManager = BackgroundManager.getInstance(getActivity());
         mBackgroundManager.attach(getActivity().getWindow());
-        mBackgroundManager.setDrawable(getResources().getDrawable(R.drawable.wwdc_2015, getContext().getTheme()));
+        mBackgroundManager.setDrawable(getResources().getDrawable(R.drawable.wwdc_desktop, getContext().getTheme()));
         mMetrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
     }
 
     private void setupUIElements() {
-        // setBadgeDrawable(getActivity().getResources().getDrawable(
-        // R.drawable.videos_by_google_banner));
-        setTitle(getString(R.string.browse_title)); // Badge, when set, takes precedent
+        setTitle(getString(R.string.browse_title));
         // over title
         setHeadersState(HEADERS_ENABLED);
         setHeadersTransitionOnBackEnabled(true);
-
-        // set fastLane (or headers) background color
         setBrandColor(getResources().getColor(R.color.fastlane_background));
-        // set search icon color
         setSearchAffordanceColor(getResources().getColor(R.color.search_opaque));
     }
 
@@ -129,9 +118,6 @@ public class MainFragment extends BrowseFragment {
         });
 
         setOnItemViewClickedListener(new ItemViewClickedListener());
-    }
-
-    protected void updateBackground(String uri) {
     }
 
     private final class ItemViewClickedListener implements OnItemViewClickedListener {
@@ -159,29 +145,6 @@ public class MainFragment extends BrowseFragment {
                             .show();
                 }
             }
-        }
-    }
-
-    private class GridItemPresenter extends Presenter {
-        @Override
-        public ViewHolder onCreateViewHolder(ViewGroup parent) {
-            TextView view = new TextView(parent.getContext());
-            view.setLayoutParams(new ViewGroup.LayoutParams(GRID_ITEM_WIDTH, GRID_ITEM_HEIGHT));
-            view.setFocusable(true);
-            view.setFocusableInTouchMode(true);
-            view.setBackgroundColor(getResources().getColor(R.color.default_background));
-            view.setTextColor(Color.WHITE);
-            view.setGravity(Gravity.CENTER);
-            return new ViewHolder(view);
-        }
-
-        @Override
-        public void onBindViewHolder(ViewHolder viewHolder, Object item) {
-            ((TextView) viewHolder.view).setText((String) item);
-        }
-
-        @Override
-        public void onUnbindViewHolder(ViewHolder viewHolder) {
         }
     }
 
