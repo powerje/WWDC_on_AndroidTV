@@ -6,16 +6,14 @@ with open('original_videos.json') as data_file:
     data = json.load(data_file)["sessions"]
     output = {}
     for video in data:
-        print video["year"]
-        if 2016 == video["year"]:
-            key = video["track"]
-            if key == "":
-                key = "misc"
+        if video["download_hd"] and ".mov" not in video["download_hd"]: 
+            year = video["year"]
+            key = "{0} - {1}".format(year, video["track"])
             current_list = output.get(key, [])
             current_list.append(video)
             output[key] = current_list
     android_out = []
-    keys = sorted(output)
+    keys = reversed(sorted(output))
     for x in keys:
         android_out.append({"name": x,
                             "videos": output[x]})
