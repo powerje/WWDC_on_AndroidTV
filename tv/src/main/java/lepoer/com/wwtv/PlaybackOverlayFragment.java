@@ -132,6 +132,15 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+
+        // HAX: god why is this necessary? Without this we have no focus and can't do anything
+        // with the remote control.
+        getActivity().getWindow().getDecorView().requestFocus();
+    }
+
+    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof OnPlayPauseClickedListener) {
@@ -140,6 +149,7 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
             throw new RuntimeException(context.toString()
                     + " must implement OnPlayPauseClickedListener");
         }
+
     }
 
     private void setupRows() {
