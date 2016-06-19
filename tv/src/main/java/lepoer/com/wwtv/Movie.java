@@ -17,6 +17,9 @@ package lepoer.com.wwtv;
 import java.io.Serializable;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /*
  * Movie class represents video entity with title, description, image thumbs and video url.
@@ -24,23 +27,15 @@ import java.net.URISyntaxException;
  */
 public class Movie implements Serializable {
     static final long serialVersionUID = 727566175075960653L;
-    private static long count = 0;
     private long id;
     private String title;
     private String description;
     private String download_hd;
     private String location;
     private String track;
+    private Map<String, String> images;
 
     public Movie() {
-    }
-
-    public static long getCount() {
-        return count;
-    }
-
-    public static void incCount() {
-        count++;
     }
 
     public long getId() {
@@ -88,15 +83,14 @@ public class Movie implements Serializable {
     }
 
     public String getCardImageUrl() {
+        if (images.get("shelf") != null) {
+            return images.get("shelf");
+        }
         return "";
     }
 
     public String getTrack() {
         return track;
-    }
-
-    public void setTrack(String track) {
-        this.track = track;
     }
 
     public URI getBackgroundImageURI() {
