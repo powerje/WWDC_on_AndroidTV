@@ -17,18 +17,18 @@ import rx.schedulers.Schedulers;
 /**
  * Created by jep on 2/28/16.
  */
-public class ConferenceList {
-    private static List<Conference> conferences;
+public class TrackList {
+    private static List<Track> tracks;
 
-    public static List<Conference> getConferenceList() {
-        return conferences;
+    public static List<Track> getConferenceList() {
+        return tracks;
     }
 
     private static List<Movie> allMovies;
     public static List<Movie> allMovies() {
         if (allMovies == null) {
             allMovies = new ArrayList<>();
-            for (Conference c : getConferenceList()) {
+            for (Track c : getConferenceList()) {
                 allMovies.addAll(c.videos);
             }
         }
@@ -37,22 +37,22 @@ public class ConferenceList {
     }
 
     /**
-     * Asynchronously load conferences from a jsonString. Once done calls to
-     * getConferenceList will return the list of conferences.
+     * Asynchronously load tracks from a jsonString. Once done calls to
+     * getConferenceList will return the list of tracks.
      * @param jsonString
      * @return
      */
-    public static Observable<List<Conference>> conferences(final String jsonString) {
-        return Observable.create(new Observable.OnSubscribe<List<Conference>>() {
+    public static Observable<List<Track>> conferences(final String jsonString) {
+        return Observable.create(new Observable.OnSubscribe<List<Track>>() {
             @Override
-            public void call(Subscriber<? super List<Conference>> subscriber) {
+            public void call(Subscriber<? super List<Track>> subscriber) {
                 Moshi moshi = new Moshi.Builder().build();
-                Type listMyData = Types.newParameterizedType(List.class, Conference.class);
-                JsonAdapter<List<Conference>> adapter = moshi.adapter(listMyData);
+                Type listMyData = Types.newParameterizedType(List.class, Track.class);
+                JsonAdapter<List<Track>> adapter = moshi.adapter(listMyData);
                 try {
-                    List<Conference> conferences = adapter.fromJson(jsonString);
-                    ConferenceList.conferences = conferences;
-                    subscriber.onNext(conferences);
+                    List<Track> tracks = adapter.fromJson(jsonString);
+                    TrackList.tracks = tracks;
+                    subscriber.onNext(tracks);
                     subscriber.onCompleted();
                 } catch (IOException e) {
                     subscriber.onError(e);

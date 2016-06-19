@@ -15,9 +15,7 @@
 package lepoer.com.wwtv;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v17.leanback.app.BackgroundManager;
 import android.support.v17.leanback.app.BrowseFragment;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
@@ -30,12 +28,10 @@ import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
@@ -44,10 +40,6 @@ import rx.functions.Action1;
 
 public class MainFragment extends BrowseFragment {
     private static final String TAG = "MainFragment";
-
-    private ArrayObjectAdapter mRowsAdapter;
-    private DisplayMetrics mMetrics;
-    private BackgroundManager mBackgroundManager;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -62,27 +54,27 @@ public class MainFragment extends BrowseFragment {
 
     private void loadRows() {
         String json = AssetReader.conferenceJson(getActivity().getAssets());
-        ConferenceList.conferences(json).subscribe(new Action1<List<Conference>>() {
+        TrackList.conferences(json).subscribe(new Action1<List<Track>>() {
             @Override
-            public void call(List<Conference> conferences) {
-                displayConferences(conferences);
+            public void call(List<Track> tracks) {
+                displayConferences(tracks);
             }
         });
     }
 
-    private void displayConferences(List<Conference> conferences) {
-        Log.i(TAG, conferences + "");
-        mRowsAdapter = new ArrayObjectAdapter(new ListRowPresenter());
+    private void displayConferences(List<Track> tracks) {
+        Log.i(TAG, tracks + "");
+        ArrayObjectAdapter mRowsAdapter = new ArrayObjectAdapter(new ListRowPresenter());
         CardPresenter cardPresenter = new CardPresenter();
 
         int i;
-        for (i = 0; i < conferences.size(); i++) {
-            Conference conference = conferences.get(i);
+        for (i = 0; i < tracks.size(); i++) {
+            Track track = tracks.get(i);
             ArrayObjectAdapter listRowAdapter = new ArrayObjectAdapter(cardPresenter);
-            for (int j = 0; j < conference.videos.size(); j++) {
-                listRowAdapter.add(conference.videos.get(j));
+            for (int j = 0; j < track.videos.size(); j++) {
+                listRowAdapter.add(track.videos.get(j));
             }
-            HeaderItem header = new HeaderItem(i, conference.name);
+            HeaderItem header = new HeaderItem(i, track.name);
             mRowsAdapter.add(new ListRow(header, listRowAdapter));
         }
 
@@ -91,11 +83,11 @@ public class MainFragment extends BrowseFragment {
     }
 
     private void prepareBackgroundManager() {
-        mBackgroundManager = BackgroundManager.getInstance(getActivity());
+        BackgroundManager mBackgroundManager = BackgroundManager.getInstance(getActivity());
         mBackgroundManager.attach(getActivity().getWindow());
         mBackgroundManager.setDrawable(getResources().getDrawable(R.drawable.wwdc_desktop, getContext().getTheme()));
-        mMetrics = new DisplayMetrics();
-        getActivity().getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
+        DisplayMetrics metrics = new DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
     }
 
     private void setupUIElements() {
@@ -103,8 +95,8 @@ public class MainFragment extends BrowseFragment {
         // over title
         setHeadersState(HEADERS_ENABLED);
         setHeadersTransitionOnBackEnabled(true);
-        setBrandColor(getResources().getColor(R.color.fastlane_background));
-        setSearchAffordanceColor(getResources().getColor(R.color.search_opaque));
+        setBrandColor(ContextCompat.getColor(getActivity(), R.color.fastlane_background));
+        setSearchAffordanceColor(ContextCompat.getColor(getActivity(), R.color.search_opaque));
     }
 
     private void setupEventListeners() {
@@ -124,8 +116,6 @@ public class MainFragment extends BrowseFragment {
         @Override
         public void onItemClicked(Presenter.ViewHolder itemViewHolder, Object item,
                                   RowPresenter.ViewHolder rowViewHolder, Row row) {
-
-            if (item instanceof Movie) {
                 Movie movie = (Movie) item;
                 Log.d(TAG, "Item: " + item.toString());
                 Intent intent = new Intent(getActivity(), DetailsActivity.class);
@@ -136,15 +126,6 @@ public class MainFragment extends BrowseFragment {
                         ((ImageCardView) itemViewHolder.view).getMainImageView(),
                         DetailsActivity.SHARED_ELEMENT_NAME).toBundle();
                 getActivity().startActivity(intent, bundle);
-            } else if (item instanceof String) {
-                if (((String) item).indexOf(getString(R.string.error_fragment)) >= 0) {
-                    Intent intent = new Intent(getActivity(), BrowseErrorActivity.class);
-                    startActivity(intent);
-                } else {
-                    Toast.makeText(getActivity(), ((String) item), Toast.LENGTH_SHORT)
-                            .show();
-                }
-            }
         }
     }
 
