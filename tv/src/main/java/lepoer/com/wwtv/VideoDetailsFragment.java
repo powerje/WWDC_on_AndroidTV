@@ -78,13 +78,13 @@ public class VideoDetailsFragment extends DetailsFragment {
 
         mSelectedMovie = (Movie) getActivity().getIntent()
                 .getSerializableExtra(DetailsActivity.MOVIE);
+
         if (mSelectedMovie != null) {
             setupAdapter();
             setupDetailsOverviewRow();
             setupDetailsOverviewRowPresenter();
             setupMovieListRow();
             setupMovieListRowPresenter();
-            updateBackground(mSelectedMovie.getBackgroundImageUrl());
             setOnItemViewClickedListener(new ItemViewClickedListener());
         } else {
             Intent intent = new Intent(getActivity(), MainActivity.class);
@@ -103,20 +103,6 @@ public class VideoDetailsFragment extends DetailsFragment {
         mDefaultBackground = getResources().getDrawable(R.drawable.wwdc_desktop);
         mMetrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
-    }
-
-    protected void updateBackground(String uri) {
-        Glide.with(getActivity())
-                .load(uri)
-                .centerCrop()
-                .error(mDefaultBackground)
-                .into(new SimpleTarget<GlideDrawable>(mMetrics.widthPixels, mMetrics.heightPixels) {
-                    @Override
-                    public void onResourceReady(GlideDrawable resource,
-                                                GlideAnimation<? super GlideDrawable> glideAnimation) {
-                        mBackgroundManager.setDrawable(resource);
-                    }
-                });
     }
 
     private void setupAdapter() {

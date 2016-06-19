@@ -78,10 +78,6 @@ public class Movie implements Serializable {
         this.download_hd = download_hd;
     }
 
-    public String getBackgroundImageUrl() {
-        return "http://commondatastorage.googleapis.com/android-tv/Sample%20videos/Zeitgeist/Zeitgeist%202010_%20Year%20in%20Review/card.jpg";
-    }
-
     public String getCardImageUrl() {
         if (images.get("shelf") != null) {
             return images.get("shelf");
@@ -91,14 +87,6 @@ public class Movie implements Serializable {
 
     public String getTrack() {
         return track;
-    }
-
-    public URI getBackgroundImageURI() {
-        try {
-            return new URI(getBackgroundImageUrl());
-        } catch (URISyntaxException e) {
-            return null;
-        }
     }
 
     public URI getCardImageURI() {
@@ -115,9 +103,7 @@ public class Movie implements Serializable {
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", download_hd='" + download_hd + '\'' +
-//                ", backgroundImageUrl='" + bgImageUrl + '\'' +
-                ", backgroundImageURI='" + getBackgroundImageURI().toString() + '\'' +
-//                ", cardImageUrl='" + cardImageUrl + '\'' +
+                ", cardImageUrl='" + getCardImageUrl() + '\'' +
                 '}';
     }
 }
